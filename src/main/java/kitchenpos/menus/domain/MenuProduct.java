@@ -1,8 +1,8 @@
 package kitchenpos.menus.domain;
 
-import kitchenpos.products.tobe.domain.Product;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Table(name = "menu_product")
@@ -13,19 +13,14 @@ public class MenuProduct {
     @Id
     private Long seq;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(
-        name = "product_id",
-        columnDefinition = "binary(16)",
-        foreignKey = @ForeignKey(name = "fk_menu_product_to_product")
-    )
-    private Product product;
-
     @Column(name = "quantity", nullable = false)
     private long quantity;
 
-    @Transient
+    @Column(name = "product_id")
     private UUID productId;
+
+    @Column(name = "price")
+    private BigDecimal productPrice;
 
     public MenuProduct() {
     }
@@ -36,14 +31,6 @@ public class MenuProduct {
 
     public void setSeq(final Long seq) {
         this.seq = seq;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(final Product product) {
-        this.product = product;
     }
 
     public long getQuantity() {
@@ -58,7 +45,19 @@ public class MenuProduct {
         return productId;
     }
 
+    public BigDecimal getProductPrice() {
+        return this.productPrice.multiply(BigDecimal.valueOf(this.quantity));
+    }
+
     public void setProductId(final UUID productId) {
         this.productId = productId;
+    }
+
+    public void updateProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
     }
 }

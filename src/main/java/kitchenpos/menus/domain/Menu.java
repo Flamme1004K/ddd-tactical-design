@@ -99,4 +99,24 @@ public class Menu {
     public void setMenuGroupId(final UUID menuGroupId) {
         this.menuGroupId = menuGroupId;
     }
+
+    public void updateMenuProductPrice(UUID productId, BigDecimal productPrice) {
+        this.menuProducts.stream()
+                .filter(it -> it.getProductId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수가 없습니다. productId : " + productId))
+                .updateProductPrice(productPrice);
+
+        var totalProductPrice = getTotalProductPrice();
+
+        if (this.price.compareTo(totalProductPrice) > 0) {
+            this.displayed = false;
+        }
+    }
+
+    public BigDecimal getTotalProductPrice() {
+        return menuProducts.stream()
+                .map(MenuProduct::getProductPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

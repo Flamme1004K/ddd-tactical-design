@@ -1,14 +1,18 @@
 package kitchenpos.menus.application;
 
 import kitchenpos.menus.domain.Menu;
+import kitchenpos.menus.domain.MenuGroupRepository;
 import kitchenpos.menus.domain.MenuRepository;
+import kitchenpos.menus.infra.listener.ProductPriceChangeListener;
+import kitchenpos.products.application.FakePurgomalumClient;
 import kitchenpos.products.application.InMemoryProductRepository;
-import kitchenpos.products.tobe.domain.Product;
-import kitchenpos.products.tobe.domain.ProductPriceChangeEventProduct;
-import kitchenpos.products.tobe.domain.ProductRepository;
+import kitchenpos.products.tobe.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.util.Random;
 
 import static kitchenpos.Fixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,14 +22,20 @@ class ProductPriceChangeListenerTest {
 
     private ProductPriceChangeListener productPriceChangeListener;
     private MenuRepository menuRepository;
-    private Product product;
+    private MenuGroupRepository menuGroupRepository;
     private ProductRepository productRepository;
+    private PurgomalumClient purgomalumClient;
+    private MenuService menuService;
+    private Product product;
 
     @BeforeEach
     void setUp() {
         menuRepository = new InMemoryMenuRepository();
-        productPriceChangeListener = new ProductPriceChangeListener(menuRepository);
+        menuGroupRepository = new InMemoryMenuGroupRepository();
         productRepository = new InMemoryProductRepository();
+        purgomalumClient = new FakePurgomalumClient();
+        menuService = new MenuService(menuRepository, menuGroupRepository, productRepository, purgomalumClient);
+        productPriceChangeListener = new ProductPriceChangeListener(menuService);
         product = productRepository.save(product("후라이드", 16_000L));
     }
 
@@ -33,7 +43,7 @@ class ProductPriceChangeListenerTest {
     @Test
     void changePriceInMenu() {
         final Menu menu = menuRepository.save(menu(19_000L, menuProduct(product, 2L)));
-        productPriceChangeListener.listen(new ProductPriceChangeEventProduct(product.getId()));
+        productPriceChangeListener.listen(new ProductPriceChangeEvent(product.getId(), new ProductPrice(BigDecimal.valueOf(19_000L))));
         assertThat(menu.isDisplayed()).isFalse();
     }
 

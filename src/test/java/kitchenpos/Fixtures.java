@@ -50,7 +50,8 @@ public class Fixtures {
     public static MenuProduct menuProduct() {
         final MenuProduct menuProduct = new MenuProduct();
         menuProduct.setSeq(new Random().nextLong());
-        menuProduct.setProduct(product());
+        menuProduct.setProductId(UUID.randomUUID());
+        menuProduct.setProductPrice(BigDecimal.valueOf(16_000));
         menuProduct.setQuantity(2L);
         return menuProduct;
     }
@@ -58,7 +59,8 @@ public class Fixtures {
     public static MenuProduct menuProduct(final Product product, final long quantity) {
         final MenuProduct menuProduct = new MenuProduct();
         menuProduct.setSeq(new Random().nextLong());
-        menuProduct.setProduct(product);
+        menuProduct.setProductId(product.getId());
+        menuProduct.setProductPrice(product.getPrice());
         menuProduct.setQuantity(quantity);
         return menuProduct;
     }
