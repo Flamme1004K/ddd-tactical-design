@@ -1,7 +1,7 @@
 package kitchenpos.menus.application;
 
 import kitchenpos.menus.tobe.domain.Menu;
-import kitchenpos.menus.domain.MenuGroupRepository;
+import kitchenpos.menus.tobe.domain.MenuGroupRepository;
 import kitchenpos.menus.tobe.domain.MenuRepository;
 import kitchenpos.menus.infra.listener.ProductPriceChangeListener;
 import kitchenpos.menus.tobe.domain.Product;

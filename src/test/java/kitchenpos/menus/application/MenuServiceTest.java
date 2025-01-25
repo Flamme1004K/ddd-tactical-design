@@ -5,7 +5,7 @@ import kitchenpos.menus.application.dto.MenuCreateProductRequest;
 import kitchenpos.menus.application.dto.MenuCreateRequest;
 import kitchenpos.menus.application.dto.MenuPriceChangeRequest;
 import kitchenpos.menus.tobe.domain.Menu;
-import kitchenpos.menus.domain.MenuGroupRepository;
+import kitchenpos.menus.tobe.domain.MenuGroupRepository;
 import kitchenpos.menus.tobe.domain.MenuRepository;
 import kitchenpos.menus.tobe.domain.Product;
 import kitchenpos.clients.FakePurgomalumClient;
