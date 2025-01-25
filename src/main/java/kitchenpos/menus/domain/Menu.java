@@ -122,4 +122,15 @@ public class Menu {
     public void updateMenuPrice(BigDecimal price) {
         this.menuPrice = menuPrice.updatePrice(price, this.getTotalProductPrice());
     }
+
+    public void display() {
+        if (this.menuPrice.isTotalProductPriceOver(this.getTotalProductPrice())) {
+            throw new IllegalStateException("상품 총 가격이 메뉴의 가격보다 높아 전시할 수 없습니다.");
+        }
+        this.displayed = true;
+    }
+
+    public void hide() {
+        this.displayed = false;
+    }
 }

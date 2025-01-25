@@ -99,10 +99,7 @@ public class MenuService {
     public Menu display(final UUID menuId) {
         final Menu menu = menuRepository.findById(menuId)
                 .orElseThrow(NoSuchElementException::new);
-        if (menu.getPrice().compareTo(menu.getTotalProductPrice()) > 0) {
-            throw new IllegalStateException();
-        }
-        menu.setDisplayed(true);
+        menu.display();
         return menu;
     }
 
@@ -110,7 +107,7 @@ public class MenuService {
     public Menu hide(final UUID menuId) {
         final Menu menu = menuRepository.findById(menuId)
                 .orElseThrow(NoSuchElementException::new);
-        menu.setDisplayed(false);
+        menu.hide();
         return menu;
     }
 
