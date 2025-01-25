@@ -1,9 +1,10 @@
-package kitchenpos.menus.domain;
+package kitchenpos.menus.tobe.domain;
+
+import kitchenpos.menus.domain.MenuGroup;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Table(name = "menu")
 @Entity
@@ -32,10 +33,23 @@ public class Menu {
     @Embedded
     private MenuProducts menuProducts;
 
-    @Transient
-    private UUID menuGroupId;
+    public static Menu from(String name, BigDecimal price, boolean displayed, MenuGroup menuGroup, MenuProducts menuProducts) {
+        return new Menu(UUID.randomUUID(), name, new MenuPrice(price), menuGroup, displayed, menuProducts);
+    }
 
     public Menu() {
+    }
+
+    public Menu(UUID id, String name, MenuPrice menuPrice, MenuGroup menuGroup, boolean displayed, MenuProducts menuProducts) {
+        if (menuPrice.isTotalProductPriceOver(menuProducts.getTotalProductPrice())) {
+            throw new IllegalArgumentException();
+        }
+        this.id = id;
+        this.name = name;
+        this.menuPrice = menuPrice;
+        this.menuGroup = menuGroup;
+        this.displayed = displayed;
+        this.menuProducts = menuProducts;
     }
 
     public UUID getId() {
@@ -87,11 +101,11 @@ public class Menu {
     }
 
     public UUID getMenuGroupId() {
-        return menuGroupId;
+        return menuGroup.getId();
     }
 
-    public void setMenuGroupId(final UUID menuGroupId) {
-        this.menuGroupId = menuGroupId;
+    public void setMenuGroupId(final MenuGroup menuGroup) {
+        this.menuGroup = menuGroup;
     }
 
     public void updateMenuProductPrice(UUID productId, BigDecimal productPrice) {

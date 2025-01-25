@@ -1,8 +1,9 @@
-package kitchenpos.menus.domain;
+package kitchenpos.menus.tobe.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
@@ -22,6 +23,9 @@ public class MenuProducts {
     }
 
     public MenuProducts(List<MenuProduct> menuProducts) {
+        if (Objects.isNull(menuProducts) || menuProducts.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         this.menuProducts = menuProducts;
     }
 
