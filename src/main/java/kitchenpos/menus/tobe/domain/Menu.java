@@ -33,7 +33,10 @@ public class Menu {
     @Embedded
     private MenuProducts menuProducts;
 
-    public static Menu from(String name, BigDecimal price, boolean displayed, MenuGroup menuGroup, MenuProducts menuProducts) {
+    public static Menu from(String name, BigDecimal price, boolean displayed, MenuGroup menuGroup, MenuProducts menuProducts, PurgomalumClient purgomalumClient) {
+        if (Objects.isNull(name) || purgomalumClient.containsProfanity(name)) {
+            throw new IllegalArgumentException();
+        }
         var menuPrice = new MenuPrice(price);
         if (menuPrice.isTotalProductPriceOver(menuProducts.getTotalProductPrice())) {
             throw new IllegalArgumentException();

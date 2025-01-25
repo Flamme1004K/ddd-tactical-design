@@ -1,5 +1,6 @@
 package kitchenpos.products.application;
 
+import kitchenpos.clients.FakePurgomalumClient;
 import kitchenpos.products.application.dto.ProductRequest;
 import kitchenpos.products.application.dto.ProductResponse;
 import kitchenpos.products.tobe.domain.ProductRepository;

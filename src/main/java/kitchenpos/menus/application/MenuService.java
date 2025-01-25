@@ -4,7 +4,7 @@ import kitchenpos.menus.application.dto.MenuCreateRequest;
 import kitchenpos.menus.application.dto.MenuPriceChangeRequest;
 import kitchenpos.menus.domain.*;
 import kitchenpos.menus.tobe.domain.Menu;
-import kitchenpos.products.tobe.domain.PurgomalumClient;
+import kitchenpos.menus.tobe.domain.PurgomalumClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,14 +27,10 @@ public class MenuService {
 
     @Transactional
     public Menu create(final MenuCreateRequest request) {
-        final var name = request.getName();
-        if (Objects.isNull(name) || purgomalumClient.containsProfanity(name)) {
-            throw new IllegalArgumentException();
-        }
         final var menuGroup = menuGroupRepository.findById(request.getMenuGroupId())
                 .orElseThrow(NoSuchElementException::new);
         final var menuProducts = antiCorruptionService.createMenuProducts(request.getMenuProducts());
-        final var menu = Menu.from(request.getName(), request.getPrice(), request.isDisplayed(), menuGroup, menuProducts);
+        final var menu = Menu.from(request.getName(), request.getPrice(), request.isDisplayed(), menuGroup, menuProducts, purgomalumClient);
         return menuRepository.save(menu);
     }
 
