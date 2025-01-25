@@ -40,9 +40,9 @@ public class MenuAntiCorruptionService {
 
         var menuProducts = menuCreateProductRequests.stream().map(it -> {
             var product = productMap.get(it.getProductId());
-            return MenuProduct.of(product, it.getQuantity());
+            return MenuProduct.newOne(product, it.getQuantity());
         }).collect(Collectors.toList());
 
-        return new MenuProducts(menuProducts);
+        return MenuProducts.newOne(menuProducts);
     }
 }

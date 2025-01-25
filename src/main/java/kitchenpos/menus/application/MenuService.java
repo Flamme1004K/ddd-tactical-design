@@ -31,7 +31,7 @@ public class MenuService {
         final var menuGroup = menuGroupRepository.findById(request.getMenuGroupId())
                 .orElseThrow(NoSuchElementException::new);
         final var menuProducts = antiCorruptionService.createMenuProducts(request.getMenuProducts());
-        final var menu = Menu.from(request.getName(), request.getPrice(), request.isDisplayed(), menuGroup, menuProducts, purgomalumClient);
+        final var menu = Menu.newOne(request.getName(), request.getPrice(), request.isDisplayed(), menuGroup, menuProducts, purgomalumClient);
         return menuRepository.save(menu);
     }
 

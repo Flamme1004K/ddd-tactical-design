@@ -19,7 +19,7 @@ public class MenuProduct {
     @Embedded
     private Product product;
 
-    public static MenuProduct of(Product product, long quantity) {
+    public static MenuProduct newOne(Product product, long quantity) {
         return new MenuProduct(null, quantity, product);
     }
 

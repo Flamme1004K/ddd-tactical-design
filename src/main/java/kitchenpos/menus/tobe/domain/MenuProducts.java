@@ -18,14 +18,18 @@ public class MenuProducts {
     )
     private List<MenuProduct> menuProducts;
 
+    public static MenuProducts newOne(List<MenuProduct> menuProducts) {
+        if (Objects.isNull(menuProducts) || menuProducts.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        return new MenuProducts(menuProducts);
+    }
+
     public MenuProducts() {
 
     }
 
     public MenuProducts(List<MenuProduct> menuProducts) {
-        if (Objects.isNull(menuProducts) || menuProducts.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
         this.menuProducts = menuProducts;
     }
 
