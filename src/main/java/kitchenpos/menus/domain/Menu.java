@@ -15,14 +15,14 @@ public class Menu {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    @Embedded
+    private MenuPrice menuPrice;
 
     @ManyToOne(optional = false)
     @JoinColumn(
-        name = "menu_group_id",
-        columnDefinition = "binary(16)",
-        foreignKey = @ForeignKey(name = "fk_menu_to_menu_group")
+            name = "menu_group_id",
+            columnDefinition = "binary(16)",
+            foreignKey = @ForeignKey(name = "fk_menu_to_menu_group")
     )
     private MenuGroup menuGroup;
 
@@ -31,10 +31,10 @@ public class Menu {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(
-        name = "menu_id",
-        nullable = false,
-        columnDefinition = "binary(16)",
-        foreignKey = @ForeignKey(name = "fk_menu_product_to_menu")
+            name = "menu_id",
+            nullable = false,
+            columnDefinition = "binary(16)",
+            foreignKey = @ForeignKey(name = "fk_menu_product_to_menu")
     )
     private List<MenuProduct> menuProducts;
 
@@ -61,11 +61,11 @@ public class Menu {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return menuPrice.getPrice();
     }
 
     public void setPrice(final BigDecimal price) {
-        this.price = price;
+        this.menuPrice = new MenuPrice(price);
     }
 
     public MenuGroup getMenuGroup() {
@@ -108,8 +108,7 @@ public class Menu {
                 .updateProductPrice(productPrice);
 
         var totalProductPrice = getTotalProductPrice();
-
-        if (this.price.compareTo(totalProductPrice) > 0) {
+        if (this.menuPrice.isTotalProductPriceOver(totalProductPrice)) {
             this.displayed = false;
         }
     }
@@ -118,5 +117,9 @@ public class Menu {
         return menuProducts.stream()
                 .map(MenuProduct::getProductPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updateMenuPrice(BigDecimal price) {
+        this.menuPrice = menuPrice.updatePrice(price, this.getTotalProductPrice());
     }
 }

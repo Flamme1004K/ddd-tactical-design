@@ -1,5 +1,6 @@
 package kitchenpos.menus.application;
 
+import kitchenpos.menus.application.dto.MenuPriceChangeRequest;
 import kitchenpos.menus.domain.*;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductRepository;
@@ -87,19 +88,10 @@ public class MenuService {
     }
 
     @Transactional
-    public Menu changePrice(final UUID menuId, final Menu request) {
-        final BigDecimal price = request.getPrice();
-        if (Objects.isNull(price) || price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException();
-        }
+    public Menu changePrice(final UUID menuId, final MenuPriceChangeRequest request) {
         final Menu menu = menuRepository.findById(menuId)
                 .orElseThrow(NoSuchElementException::new);
-
-
-        if (price.compareTo(menu.getTotalProductPrice()) > 0) {
-            throw new IllegalArgumentException();
-        }
-        menu.setPrice(price);
+        menu.updateMenuPrice(request.getPrice());
         return menu;
     }
 
