@@ -1,7 +1,7 @@
 package kitchenpos.menus.infra.listener;
 
 import kitchenpos.menus.application.MenuService;
-import kitchenpos.products.tobe.domain.ProductPriceChangeEvent;
+import kitchenpos.shared.ProductPriceChangeEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 

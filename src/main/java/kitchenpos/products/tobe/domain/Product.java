@@ -1,6 +1,7 @@
 package kitchenpos.products.tobe.domain;
 
 
+import kitchenpos.shared.ProductPriceChangeEvent;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
