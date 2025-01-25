@@ -47,6 +47,6 @@ public class Product extends AbstractAggregateRoot<Product> {
 
     public void changePrice(final ProductPrice productPrice) {
         this.price = productPrice;
-        registerEvent(new ProductPriceChangeEvent(this.id, productPrice));
+        registerEvent(new ProductPriceChangeEvent(this.id, this.getPrice()));
     }
 }

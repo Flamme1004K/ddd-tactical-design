@@ -8,14 +8,11 @@ import kitchenpos.menus.tobe.domain.Product;
 import kitchenpos.clients.FakePurgomalumClient;
 import kitchenpos.menus.tobe.domain.PurgomalumClient;
 import kitchenpos.products.application.InMemoryProductRepository;
-import kitchenpos.products.tobe.domain.ProductPrice;
 import kitchenpos.products.tobe.domain.ProductPriceChangeEvent;
 import kitchenpos.products.tobe.domain.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
 
 import static kitchenpos.Fixtures.*;
 import static kitchenpos.MenuFixture.menu;
@@ -51,7 +48,7 @@ class ProductPriceChangeListenerTest {
     @Test
     void changePriceInMenu() {
         final Menu menu = menuRepository.save(menu(19_000L, menuProduct(product, 2L)));
-        productPriceChangeListener.listen(new ProductPriceChangeEvent(product.getProductId(), new ProductPrice(BigDecimal.valueOf(19_000L))));
+        productPriceChangeListener.listen(new ProductPriceChangeEvent(product.getProductId(), product.getProductPrice()));
         assertThat(menu.isDisplayed()).isFalse();
     }
 

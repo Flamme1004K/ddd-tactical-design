@@ -5,9 +5,9 @@ import java.util.UUID;
 
 public class ProductPriceChangeEvent {
     private final UUID id;
-    private final ProductPrice productPrice;
+    private final BigDecimal productPrice;
 
-    public ProductPriceChangeEvent(UUID id, ProductPrice productPrice) {
+    public ProductPriceChangeEvent(UUID id, BigDecimal productPrice) {
         this.id = id;
         this.productPrice = productPrice;
     }
@@ -17,6 +17,6 @@ public class ProductPriceChangeEvent {
     }
 
     public BigDecimal getProductPrice() {
-        return this.productPrice.getPrice();
+        return this.productPrice;
     }
 }
