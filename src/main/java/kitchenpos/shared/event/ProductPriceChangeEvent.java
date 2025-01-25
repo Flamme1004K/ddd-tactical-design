@@ -1,4 +1,4 @@
-package kitchenpos.shared;
+package kitchenpos.shared.event;
 
 import java.math.BigDecimal;
 import java.util.UUID;

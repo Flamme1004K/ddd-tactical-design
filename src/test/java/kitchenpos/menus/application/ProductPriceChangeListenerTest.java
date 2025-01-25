@@ -8,7 +8,7 @@ import kitchenpos.menus.tobe.domain.Product;
 import kitchenpos.clients.FakePurgomalumClient;
 import kitchenpos.menus.tobe.domain.PurgomalumClient;
 import kitchenpos.products.application.InMemoryProductRepository;
-import kitchenpos.shared.ProductPriceChangeEvent;
+import kitchenpos.shared.event.ProductPriceChangeEvent;
 import kitchenpos.products.tobe.domain.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
