@@ -19,6 +19,10 @@ public class MenuProduct {
     @Embedded
     private Product product;
 
+    public static MenuProduct of(Product product, long quantity) {
+        return new MenuProduct(null, quantity, product);
+    }
+
     public MenuProduct() {
     }
 
@@ -26,10 +30,6 @@ public class MenuProduct {
         this.seq = seq;
         this.quantity = quantity;
         this.product = product;
-    }
-
-    public Long getSeq() {
-        return seq;
     }
 
     public UUID getProductId() {
@@ -42,9 +42,5 @@ public class MenuProduct {
 
     public void updateProductPrice(BigDecimal productPrice) {
         this.product.updatePrice(productPrice);
-    }
-
-    public static MenuProduct of(Product product, long quantity) {
-        return new MenuProduct(null, quantity, product);
     }
 }

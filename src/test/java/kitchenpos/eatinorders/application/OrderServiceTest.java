@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static kitchenpos.Fixtures.*;
+import static kitchenpos.MenuFixture.menu;
+import static kitchenpos.MenuFixture.menuProduct;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;

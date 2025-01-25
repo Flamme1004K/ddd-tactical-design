@@ -21,6 +21,10 @@ public class MenuAntiCorruptionService {
     }
 
     public MenuProducts createMenuProducts(List<MenuCreateProductRequest> menuCreateProductRequests) {
+        if (Objects.isNull(menuCreateProductRequests) || menuCreateProductRequests.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        
         final List<Product> products = productRepository.findAllByIdIn(
                 menuCreateProductRequests.stream()
                         .map(MenuCreateProductRequest::getProductId)
