@@ -36,7 +36,7 @@ public class Menu {
             throw new IllegalArgumentException();
         }
         var menuPrice = new MenuPrice(price);
-        if (menuPrice.isTotalProductPriceOver(menuProducts.getTotalProductPrice())) {
+        if (menuPrice.isAmountOver(menuProducts.getAmount())) {
             throw new IllegalArgumentException();
         }
         return new Menu(UUID.randomUUID(), name, menuPrice, menuGroup, displayed, menuProducts);
@@ -80,17 +80,17 @@ public class Menu {
 
     public void updateMenuProductPrice(UUID productId, BigDecimal productPrice) {
         this.menuProducts.updateProductPrice(productId, productPrice);
-        if (this.menuPrice.isTotalProductPriceOver(this.menuProducts.getTotalProductPrice())) {
+        if (this.menuPrice.isAmountOver(this.menuProducts.getAmount())) {
             this.displayed = false;
         }
     }
 
     public void updateMenuPrice(BigDecimal price) {
-        this.menuPrice = menuPrice.updatePrice(price, this.menuProducts.getTotalProductPrice());
+        this.menuPrice = menuPrice.updatePrice(price, this.menuProducts.getAmount());
     }
 
     public void display() {
-        if (this.menuPrice.isTotalProductPriceOver(this.menuProducts.getTotalProductPrice())) {
+        if (this.menuPrice.isAmountOver(this.menuProducts.getAmount())) {
             throw new IllegalStateException("상품 총 가격이 메뉴의 가격보다 높아 전시할 수 없습니다.");
         }
         this.displayed = true;

@@ -24,15 +24,15 @@ public class MenuPrice {
         return price;
     }
 
-    public MenuPrice updatePrice(BigDecimal price, BigDecimal totalProductPrice) {
+    public MenuPrice updatePrice(BigDecimal price, BigDecimal amount) {
         MenuPrice newMenuPrice = new MenuPrice(price);
-        if (newMenuPrice.isTotalProductPriceOver(totalProductPrice)) {
+        if (newMenuPrice.isAmountOver(amount)) {
             throw new IllegalArgumentException("총 상품 가격이 메뉴 가격보다 큽니다.");
         }
         return newMenuPrice;
     }
 
-    public boolean isTotalProductPriceOver(BigDecimal totalProductPrice) {
-        return this.price.compareTo(totalProductPrice) > 0;
+    public boolean isAmountOver(BigDecimal amount) {
+        return this.price.compareTo(amount) > 0;
     }
 }
