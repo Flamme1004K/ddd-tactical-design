@@ -33,10 +33,8 @@ public class Menu {
 
     public static Menu newOne(String name, BigDecimal price, boolean displayed, MenuGroup menuGroup, MenuProducts menuProducts, PurgomalumClient purgomalumClient) {
         var menuPrice = new MenuPrice(price);
+        MenuNamePolicy.validMenuName(name, purgomalumClient);
         AmountPolicy.validRegistrableMenuPrice(menuPrice, menuProducts);
-        if (Objects.isNull(name) || purgomalumClient.containsProfanity(name)) {
-            throw new IllegalArgumentException();
-        }
         return new Menu(UUID.randomUUID(), name, menuPrice, menuGroup, displayed, menuProducts);
     }
 
