@@ -1,5 +1,7 @@
 package kitchenpos.menus.tobe.domain;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,14 +20,13 @@ public class MenuGroup {
     private String name;
 
     public static MenuGroup newOne(String name) {
-        if (Objects.isNull(name) || name.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        Assert.isTrue(!Objects.isNull(name) && !name.isEmpty(), name);
         return new MenuGroup(UUID.randomUUID(), name);
     }
 
     public MenuGroup() {
     }
+
     public MenuGroup(UUID id, String name) {
         this.id = id;
         this.name = name;

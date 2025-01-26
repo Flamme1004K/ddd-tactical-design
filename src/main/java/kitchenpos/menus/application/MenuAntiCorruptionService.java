@@ -6,6 +6,7 @@ import kitchenpos.menus.tobe.domain.MenuProducts;
 import kitchenpos.products.tobe.domain.Product;
 import kitchenpos.products.tobe.domain.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.function.Function;
@@ -21,18 +22,14 @@ public class MenuAntiCorruptionService {
     }
 
     public MenuProducts createMenuProducts(List<MenuCreateProductRequest> menuCreateProductRequests) {
-        if (Objects.isNull(menuCreateProductRequests) || menuCreateProductRequests.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        
+        Assert.isTrue(!Objects.isNull(menuCreateProductRequests) && !menuCreateProductRequests.isEmpty(), "메뉴 상품 정보가 누락되었습니다.");
+
         final List<Product> products = productRepository.findAllByIdIn(
                 menuCreateProductRequests.stream()
                         .map(MenuCreateProductRequest::getProductId)
                         .collect(Collectors.toList())
         );
-        if (products.size() != menuCreateProductRequests.size()) {
-            throw new IllegalArgumentException();
-        }
+        Assert.isTrue(products.size() == menuCreateProductRequests.size(), "메뉴 상품 정보가 등록 된 상품 정보와 일치하지 않습니다.");
 
         var productMap = products.stream()
                 .map(it -> new kitchenpos.menus.tobe.domain.Product(it.getId(), it.getPrice()))

@@ -1,5 +1,7 @@
 package kitchenpos.menus.tobe.domain;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,9 +21,7 @@ public class MenuProducts {
     private List<MenuProduct> menuProducts;
 
     public static MenuProducts newOne(List<MenuProduct> menuProducts) {
-        if (Objects.isNull(menuProducts) || menuProducts.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        Assert.isTrue(!Objects.isNull(menuProducts) && !menuProducts.isEmpty(), "메뉴 상품 정보가 누락되었습니다.");
         return new MenuProducts(menuProducts);
     }
 
@@ -47,7 +47,7 @@ public class MenuProducts {
         this.menuProducts.stream()
                 .filter(it -> it.getProductId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수가 없습니다. productId : " + productId))
+                .orElseThrow(NotFoundProductException::new)
                 .updateProductPrice(productPrice);
     }
 }

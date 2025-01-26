@@ -1,5 +1,7 @@
 package kitchenpos.menus.tobe.domain;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
@@ -14,9 +16,7 @@ public class MenuPrice {
     }
 
     public MenuPrice(BigDecimal price) {
-        if (Objects.isNull(price) || price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException();
-        }
+        Assert.isTrue(!Objects.isNull(price) && price.compareTo(BigDecimal.ZERO) > 0, "메뉴의 가격은 0보다 커야합니다.");
         this.price = price;
     }
 

@@ -2,10 +2,7 @@ package kitchenpos.menus.application;
 
 import kitchenpos.menus.application.dto.MenuCreateRequest;
 import kitchenpos.menus.application.dto.MenuPriceChangeRequest;
-import kitchenpos.menus.tobe.domain.MenuGroupRepository;
-import kitchenpos.menus.tobe.domain.MenuRepository;
-import kitchenpos.menus.tobe.domain.Menu;
-import kitchenpos.menus.tobe.domain.PurgomalumClient;
+import kitchenpos.menus.tobe.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +26,7 @@ public class MenuService {
     @Transactional
     public Menu create(final MenuCreateRequest request) {
         final var menuGroup = menuGroupRepository.findById(request.getMenuGroupId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundMenuException::new);
         final var menuProducts = antiCorruptionService.createMenuProducts(request.getMenuProducts());
         final var menu = Menu.newOne(request.getName(), request.getPrice(), request.isDisplayed(), menuGroup, menuProducts, purgomalumClient);
         return menuRepository.save(menu);
@@ -38,7 +35,7 @@ public class MenuService {
     @Transactional
     public Menu changePrice(final UUID menuId, final MenuPriceChangeRequest request) {
         final Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundMenuException::new);
         menu.updateMenuPrice(request.getPrice());
         return menu;
     }
@@ -46,7 +43,7 @@ public class MenuService {
     @Transactional
     public Menu display(final UUID menuId) {
         final Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundMenuException::new);
         menu.display();
         return menu;
     }
@@ -54,7 +51,7 @@ public class MenuService {
     @Transactional
     public Menu hide(final UUID menuId) {
         final Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundMenuException::new);
         menu.hide();
         return menu;
     }
