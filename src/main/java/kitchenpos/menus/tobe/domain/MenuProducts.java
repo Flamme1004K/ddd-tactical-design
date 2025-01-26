@@ -33,14 +33,14 @@ public class MenuProducts {
         this.menuProducts = menuProducts;
     }
 
+    public List<MenuProduct> getMenuProducts() {
+        return this.menuProducts;
+    }
+
     public BigDecimal getAmount() {
         return this.menuProducts.stream()
                 .map(MenuProduct::getProductPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public List<MenuProduct> getMenuProducts() {
-        return this.menuProducts;
     }
 
     public void updateProductPrice(UUID productId, BigDecimal productPrice) {

@@ -23,16 +23,4 @@ public class MenuPrice {
     public BigDecimal getPrice() {
         return price;
     }
-
-    public MenuPrice updatePrice(BigDecimal price, BigDecimal amount) {
-        MenuPrice newMenuPrice = new MenuPrice(price);
-        if (newMenuPrice.isAmountOver(amount)) {
-            throw new IllegalArgumentException("총 상품 가격이 메뉴 가격보다 큽니다.");
-        }
-        return newMenuPrice;
-    }
-
-    public boolean isAmountOver(BigDecimal amount) {
-        return this.price.compareTo(amount) > 0;
-    }
 }
